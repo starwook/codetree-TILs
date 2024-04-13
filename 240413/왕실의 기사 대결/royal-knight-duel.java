@@ -111,11 +111,11 @@ public class Main {
                     return false;
                 }
                 int soldierMapStatus = soldierMap[i+rArr[position]][j+cArr[position]];
-                
+
                 //만약 같은 솔져번호이거나 빈칸이라면
                 if(soldierMapStatus== soldierNumber || soldierMapStatus == Blank) continue;
                 //만약 이미 밀린 솔져라면
-                if(visitedSolder[soldierMapStatus]) continue;
+                if(visitedSolder[soldierNumber]) continue;
                 boolean canMove = checkSoldierCanMove(soldierMapStatus,position);
                 if(!canMove) return false;
             }
