@@ -23,12 +23,11 @@ public class Main {
         for(int i=1;i<=M;i++){
             nowTurn =i;
 
+//            System.out.println("turn:"+nowTurn);
             rudolphMove();
-//            showMapp();
             santaMove();
 
             scoreOfForLivingSanta();
-//            showMapp();
 
         }
         showSantaScore();
@@ -41,7 +40,10 @@ public class Main {
     private static void showMapp() {
         for(int r=1;r<=N;r++){
             for(int c=1;c<=N;c++){
-                System.out.print(map[r][c]+" ");
+                System.out.print(map[r][c]+"(");
+                if(map[r][c] ==-1 ||map[r][c]==0) System.out.print(-1);
+                else System.out.print(santas[map[r][c]].faint);
+                System.out.print(")"+" ");
             }
             System.out.println();
         }
@@ -64,15 +66,18 @@ public class Main {
             if(santa.out) {
                 continue;
             }
-            int shortestDistance =100000;
-            int nextR =1;
-            int nextC =1;
+            int firstDistance = getDistanceWithRudolph(santa.r,santa.c);
+            int shortestDistance = firstDistance;
+            int nextR =santa.r;
+            int nextC =santa.c;
             int tmpPosition =0;
             for(int position=3;position>=0;position--){
                 int tmpR = santa.r+rArr[position];
                 int tmpC = santa.c+cArr[position];
                 if(isOutOfMap(tmpR,tmpC)) continue;
                 if(map[tmpR][tmpC] != 0 &&map[tmpR][tmpC] !=RudolphNumber) continue;
+                int distanceWithRudolph = getDistanceWithRudolph(tmpR,tmpC);
+                if(distanceWithRudolph >= firstDistance) continue;
                 if(getDistanceWithRudolph(tmpR,tmpC)<=shortestDistance){
                     shortestDistance = getDistanceWithRudolph(tmpR,tmpC);
                     tmpPosition = getReversePosition(position);
@@ -213,6 +218,7 @@ public class Main {
             santas[santaNumber] =  new Santa(santaR,santaC,santaNumber,0);
             map[santaR][santaC] =santaNumber;
         }
+
     }
 
     public static class Santa{
